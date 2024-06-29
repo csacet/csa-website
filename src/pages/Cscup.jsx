@@ -111,7 +111,7 @@ function CsCup() {
           </button>
         </div>
         <div className='mt-10 text-center'>
-          <p className='text-white text-xl'>Visit <a href='https://cs-cup-points-table.vercel.app/' className='underline italic'>CS-Cup</a> for more</p>
+          <p className='text-white text-xl'>Visit <a href='https://cs-cup-points-table.vercel.app/' className='underline italic font-semibold'> CS-Cup </a> for more</p>
         </div>
       </div>
       <Footer />

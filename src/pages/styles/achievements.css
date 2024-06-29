@@ -1,0 +1,39 @@
+
+
+.swiper-container {
+  width: 100%;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+.expand-container {
+  overflow: hidden;
+}
+
+/* achievements.css */
+@media (max-width: 768px) {
+  .modal-hidden {
+    display: none;
+  }
+}
+
+
+
+@media (min-width: 768px) {
+  .swiper-slide {
+    width: calc(50% - 30px); /* Adjust to your layout needs */
+  }
+}
+
+@media (min-width: 992px) {
+  .swiper-slide {
+    width: calc(33.333% - 30px); /* Adjust to your layout needs */
+  }
+}

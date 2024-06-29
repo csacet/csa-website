@@ -14,31 +14,39 @@ import img9 from "../assets/images/dotslash/9.jpg";
 import './styles/dotslash.css';
 import Footer from '../components/Footer';
 
-import { useScroll } from 'framer-motion';
-
 function Gallery() {
   const ref = useRef(null);
-  useScroll({
-    target: '',
-    offset: ["0 1", "1.33 1"]
-  });
   const [selectedImage, setSelectedImage] = useState(0);
   const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
   const intervalDuration = 3000; // Change this value to adjust the interval duration
+  const [isScrolling, setIsScrolling] = useState(false);
+  let scrollTimeout = useRef(null);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setSelectedImage((prevIndex) => (prevIndex + 1) % images.length);
+      if (!isScrolling) {
+        setSelectedImage((prevIndex) => (prevIndex + 1) % images.length);
+      }
     }, intervalDuration);
 
     // Clean up interval on component unmount
     return () => clearInterval(intervalId);
-  }, []);
+  }, [isScrolling]);
 
-  // useEffect(() => {
-  //   // Initialize AOS once the component is mounted
-  //   AOS.init();
-  // }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolling(true);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleClick = (index) => {
     setSelectedImage(index);
@@ -55,13 +63,10 @@ function Gallery() {
   return (
     <div className='dotslash-full max-w-full overflow-hidden'>
       <Navbar textColor="white" />
-      <div className='bg-gradient-to-b pt-40 pb-16 min-h-screen' style={{ background: '' }}>
-        {/* Rest of your JSX code */}
-        
-        <div className='flex flex-row justify-center text-[#ffffff] font-bold'>
-          <img src={dotslashTitle} alt="DotSlash Title" className="mx-auto mt-6 w- h-16" />
+      <div className='bg-gradient-to-b pt-40 pb-16 min-h-screen'>
+        <div className='flex flex-row justify-center text-[#ffffff] mx-10 font-bold'>
+          <img src={dotslashTitle} alt="DotSlash Title" className=" m-auto mt-6 w- h-16" />
         </div>
-        
         <p className="text-white p-20 text-lg w-full flex justify-center items-center text-center">
           Relive the excitement of Dotslash, the annual extravaganza from the Computer Science & Engineering Department at the College of Engineering, Trivandrum! Explore the workshops, competitions, and project exhibitions that showcased student innovation and technology. Dotslash has left a legacy of fostering continuous learning and skill development in the computer science community.
         </p>
@@ -91,6 +96,7 @@ function Gallery() {
             <MdArrowLeft className='text-2xl text-[#1D2C66] bg-white rounded-full' />
           </button>
           {images.map((image, index) => (
+            
             <img
               key={index}
               src={image}
@@ -114,7 +120,7 @@ function Gallery() {
           </button>
         </div>
         <div className='mt-10 text-center'>
-          <p className='text-white text-xl'>Visit <a href='https://www.dotslashcet.tech/' className='underline italic'>Dotslash</a> for more</p>
+          <p className='text-white text-xl'>Visit <a href='https://www.dotslashcet.tech/' className='underline italic font-semibold'>Dotslash</a> for more</p>
         </div>
       </div>
       <Footer />
